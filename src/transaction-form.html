@@ -1,167 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!--
-    WEEK 4 — SESSION 1 LIVE DEMO
-    Goal: move from Week 3 transaction design to a clean semantic HTML page.
-
-    Teaching focus:
-    1. Basic HTML document structure
-    2. Elements + nesting
-    3. Semantic HTML
-    4. Attributes
-    5. Edit → Save → Refresh → Verify
-  -->
-
   <meta charset="UTF-8">
-
-  <!-- Helps the page display properly on different screen sizes -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- Appears in the browser tab -->
+  <link rel = "stylesheet" href="styles.css">
   <title>Academic-Request</title>
 </head>
-
 <body>
 
-  <!--
-    <header> = introductory area of the page.
-    It communicates the purpose of the page.
-  -->
-  <header>
-    <h1>Academic Advising</h1>
-    <p>Submit a request for an advising appointment</p>
+  <header class = "site-header">
+    <div class = "page-container">
+      <h1>Academic Advising</h1>
+      <p>Submit a request for an advising appointment</p>
+    </div>
   </header>
 
-  <!--
-    <main> = the primary content of this page.
-    A page should normally have one main content region.
-  -->
-  <main>
-
-    <!--
-      <section> groups related content.
-      This first section gives instructions before the transaction form.
-    -->
-    <section>
+  <main class = "page-container">
+    <section class = "intro-section">
       <h2>Before You Submit</h2>
       <p>Please have your student ID, reason for visit, specific academic advisor, and date/time prepared</p>
     </section>
 
-    <!--
-      This second section represents the future transaction-entry area.
-
-      In Session 1, we stop at structure.
-      In Session 2, we will place the actual <form> and controls here.
-    -->
     <section>
       <h2>Appointment Details</h2>
 
-           <form method="get">
-
-        <!--
-          <fieldset> groups related controls.
-          <legend> gives the group a meaningful name.
-        -->
+      <form method="get">
         <fieldset>
-
           <legend>Advising Information</legend>
-          
-          <label for="studentId">Student ID</label>
-          <!--for connect the label to input id-->
-          <input
-            id="studentId"
-            name="studentId"
-            type="text"
-            required
-          >
-          <!-- <br> new line-->
-          <br><br>
+          <div class = "form-row">
 
-          <label for="advisingDate">Advising Date</label>
+            <div class = "form-group">
+              <label for="studentId">Student ID</label>
+              <input
+                id="studentId"
+                name="studentId"
+                type="text"
+                required>
+            </div>
 
-          <input
-            id="advisingDate"
-            name="advisingDate"
-            type="date"
-            required
-          >
+            <div class = "form-group">
+              <label for="advisingDate">Advising Date</label>
+              <input
+                id="advisingDate"
+                name="advisingDate"
+                type="date"
+                required>
+            </div>
 
-          <br><br>
+          </div>
 
-          <label for="advisorName">Advisor Name</label>
+          <div class = "form-row">
 
-          <select
-            id="advisorName"
-            name="advisorName"
-            required
-          >
-            <option value="">Select an advisor</option>
-            <option value="advisor1">Advisor 1</option>
-            <option value="advisor2">Advisor 2</option>
-            <option value="advisor3">Advisor 3</option>
-            <option value="advisor4">Advisor 4</option>
-          <!--Idk what names you guys want so I just put random stuff-->
-          </select>
+            <div class = "form-group">
+              <label for="advisorName">Advisor Name</label>
+              <select
+                id="advisorName"
+                name="advisorName"
+                required>
 
-          <br><br>
+                <option value="">Select an advisor</option>
+                <option value="advisor1">Advisor 1</option>
+                <option value="advisor2">Advisor 2</option>
+                <option value="advisor3">Advisor 3</option>
+                <option value="advisor4">Advisor 4</option>
+                <!--Idk what names you guys want so I just put random stuff-->
+              </select>
+            </div>
 
-          <label for="gradeStanding">Grade Standing</label>
+            <div class = "form-group">
+              <label for="gradeStanding">Grade Standing</label>
+              <select
+                id="gradeStanding"
+                name="gradeStanding"
+                required>
 
-          <select
-            id="gradeStanding"
-            name="gradeStanding"
-            required
-          >
-            <option value="">What is your grade standing?</option>
-            <option value="freshman">Freshman</option>
-            <option value="sophomore">Sophomore</option>
-            <option value="junior">Junior</option>
-            <option value="senior">Senior</option>
-          </select>
+                <option value="">What is your grade standing?</option>
+                <option value="freshman">Freshman</option>
+                <option value="sophomore">Sophomore</option>
+                <option value="junior">Junior</option>
+                <option value="senior">Senior</option>
+              </select>
+            </div>
+          </div>
 
-          <br><br>
-
-          <label for="description">Appointment Purpose / Description</label>
-          <br>
-
-          <textarea
-            id="description"
-            name="description"
-            rows="4"
-            cols="45"
-            required
-          ></textarea>
-
+          <div class = "form-group">
+            <label for="description">Appointment Purpose / Description</label>
+            <textarea
+              id="description"
+              name="description"
+              rows="4"
+              cols="45"
+              required></textarea>
+          </div>
         </fieldset>
 
-        <br>
-
-        <!--
-          type="submit" asks the browser to submit the form.
-
-          Before submission, the browser checks the native constraints.
-          Try:
-          - leaving a required field empty
-          - entering amount = 0
-          - entering amount = 5600
-        -->
-        <button type="submit">
-          Submit Request
-        </button>
-
+        <button type="submit">Submit Request</button>
       </form>
     </section>
-
   </main>
-
-  <!--
-    <footer> = supporting or closing information.
-    It is not the main transaction content.
-  -->
-  <footer>
-    <p>MIS 3371 — Week 4 Live Demo</p>
-  </footer>
-
 </body>
 </html>
