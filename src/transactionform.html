@@ -30,7 +30,7 @@
           <legend>Advising Information</legend>
           <div class = "form-row">
 
-            </div> 
+            <div class = "form-group"> 
               <label for="studentName">Student Name</label>
               <input
                 id="studentName"
@@ -38,7 +38,6 @@
                 type="text"
                 required>
             </div>
-
 
             <div class = "form-group">
               <label for="studentId">Student ID</label>
@@ -50,30 +49,48 @@
                 pattern="[0-9]{7}"
                 maxlength="7"
                 required>
+
+              <p id="validstudentId" aria-live="polite"></p> 
+               
             </div>
-
-              <p id="validstudentId" aria-live="polite"></p>
-
-
-            <div class = "form-group">
-              <label for="advisingDate">Advising Date</label>
-              <input
-                id="advisingDate"
-                name="advisingDate"
-                type="date"
-                required>
-            </div>
-
-            <div class = "form-group">
-              <label for="advisingTime">Advising Time</label>
-              <input
-                id="advisingTime"
-                name="advisingTime"
-                type="time"
-                required>
-               <!--I will work on refining the time portion, wanted to have something for now.-->
-
+            
           </div>
+              
+
+            <div class = "form-row">
+              
+              <div class = "form-group">
+                <label for="advisingDate">Advising Date</label>
+                <input
+                  id="advisingDate"
+                  name="advisingDate"
+                  type="date"
+                  required>
+              </div>
+
+              <div class = "form-group">
+                <label for="advisingTime">Advising Time</label>
+                <input
+                  id="advisingTime"
+                  name="advisingTime"
+                  type="time"
+                  required>
+                <!--I will work on refining the time portion, wanted to have something for now.-->
+              </div>
+
+              <div class = "form-group">
+              <label for="appointmentType">Appointment Type</label>
+              <select
+                id="appointmentType"
+                name="appointmentType"
+                required>
+
+                <option value="">Select an appointment type</option>
+                <option value="virtual">Virtual</option>
+                <option value="in-person">In-Person</option>
+              </select>
+              </div>
+            </div>
 
 
           <div class = "form-row">
