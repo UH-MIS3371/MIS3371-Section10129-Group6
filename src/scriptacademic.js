@@ -9,7 +9,6 @@ function checkStudentId(id) {
 }
 
 function updateValidStudentIdMessage() {
- // HTML input values are read as strings, so convert the amount to a number.
   const studentID = String(studentId.value);
 
   if (studentId === '') {
@@ -17,9 +16,9 @@ function updateValidStudentIdMessage() {
     return;
 } 
   if(checkStudentId(studentID)) {
-    approvalMessage.textContent = 'PSID is valid.';
+    approvalMessage.textContent = 'Valid PSID.';
   } else {
-    approvalMessage.textContent = 'PSID is not valid. Please enter a 7-digit PSID.';
+    approvalMessage.textContent = 'Please enter a valid 7-digit PSID.';
   }
 
 }

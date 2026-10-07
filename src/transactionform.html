@@ -5,13 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel = "stylesheet" href="styles.css">
    <script src="scriptacademic.js" defer></script>
-  <title>Academic-Request</title>
+  <title>Bauer-Academic-Request</title>
 </head>
 <body>
 
   <header class = "site-header">
     <div class = "page-container">
-      <h1>Academic Advising</h1>
+      <h1>Bauer Academic Advising</h1>
       <p>Submit a request for an advising appointment</p>
     </div>
   </header>
@@ -29,7 +29,6 @@
         <fieldset>
           <legend>Advising Information</legend>
           <div class = "form-row">
-
             <div class = "form-group"> 
               <label for="studentName">Student Name</label>
               <input
@@ -40,57 +39,90 @@
             </div>
 
             <div class = "form-group">
-              <label for="studentId">Student ID</label>
+              <label for="psid">PSID</label>
               <input
-                id="studentId"
-                name="studentId"
+                id="psid"
+                name="psid"
                 type="text"
                 inputmode="numeric"
                 pattern="[0-9]{7}"
                 maxlength="7"
                 required>
-
-              <p id="validstudentId" aria-live="polite"></p> 
-               
+              <p id="validstudentId" aria-live="polite"></p>   
             </div>
-            
-          </div>
-              
+          </div>      
 
-            <div class = "form-row">
-              
-              <div class = "form-group">
-                <label for="advisingDate">Advising Date</label>
-                <input
-                  id="advisingDate"
-                  name="advisingDate"
-                  type="date"
-                  required>
-              </div>
+          <div class = "form-row">
 
-              <div class = "form-group">
-                <label for="advisingTime">Advising Time</label>
-                <input
-                  id="advisingTime"
-                  name="advisingTime"
-                  type="time"
-                  required>
-                <!--I will work on refining the time portion, wanted to have something for now.-->
-              </div>
-
-              <div class = "form-group">
-              <label for="appointmentType">Appointment Type</label>
+            <div class = "form-group">
+              <label for="studentMajor">Student Major</label>
               <select
-                id="appointmentType"
-                name="appointmentType"
+                id="studentMajor"
+                name="studentMajor"
                 required>
 
-                <option value="">Select an appointment type</option>
-                <option value="virtual">Virtual</option>
-                <option value="in-person">In-Person</option>
+                <option value="">Select your major</option>
+                <option value="accounting">Accounting</option>
+                <option value="finance">Finance</option>
+                <option value="management">Management</option>
+                <option value="marketing">Marketing</option>
+                <option value="entrepreneurship">Entrepreneurship</option>
+                <option value="managementInformationSystem">Management Information System</option>
+                <option value="supplyChainManagement">Supply Chain Management</option>
               </select>
-              </div>
             </div>
+
+            <div class = "form-group">
+            <label for="gradTerm">Graduation Term</label>
+            <select
+              id="gradTerm"
+              name="gradTerm"
+              required>
+
+              <option value="">Select your graduation term</option>
+              <option value="spring">Spring</option>
+              <option value="summer">Summer</option>
+              <option value="fall">Fall</option>
+            </select>
+            </div>
+
+            <div class = "form-group">
+            <label for="gradYear">Graduation Year</label>
+            <select
+              id="gradYear"
+              name="gradYear"
+              required>
+
+              <option value="">Select your graduation year</option>
+              <option value="2026">2026</option>
+              <option value="2027">2027</option>
+              <option value="2028">2028</option>
+              <option value="2029">2029</option>
+              <option value="2030">2030</option>
+            </select>
+            </div>
+          </div>
+
+          <div class = "form-row">  
+            <div class = "form-group">
+              <label for="advisingDate">Advising Date</label>
+              <input
+                id="advisingDate"
+                name="advisingDate"
+                type="date"
+                required>
+            </div>
+
+            <div class = "form-group">
+              <label for="advisingTime">Advising Time</label>
+              <input
+                id="advisingTime"
+                name="advisingTime"
+                type="time"
+                required>
+              <!--I will work on refining the time portion, wanted to have something for now.-->
+            </div>
+          </div>
 
 
           <div class = "form-row">
@@ -113,18 +145,16 @@
             </div>
 
             <div class = "form-group">
-              <label for="gradeStanding">Grade Standing</label>
-              <select
-                id="gradeStanding"
-                name="gradeStanding"
-                required>
+            <label for="appointmentType">Appointment Type</label>
+            <select
+              id="appointmentType"
+              name="appointmentType"
+              required>
 
-                <option value="">What is your grade standing?</option>
-                <option value="freshman">Freshman</option>
-                <option value="sophomore">Sophomore</option>
-                <option value="junior">Junior</option>
-                <option value="senior">Senior</option>
-              </select>
+              <option value="">Select an appointment type</option>
+              <option value="virtual">Virtual</option>
+              <option value="in-person">In-Person</option>
+            </select>
             </div>
           </div>
 
