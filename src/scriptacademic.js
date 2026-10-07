@@ -1,7 +1,7 @@
 const STUDENT_ID_LENGTH = 7;
 
 const form = document.querySelector("#transaction-form.html");
-const studentId = document.querySelector('#studentId');
+const studentId = document.querySelector('#psid');
 const approvalMessage = document.querySelector('#validstudentId');
 
 function checkStudentId(id) {
