@@ -8,9 +8,4 @@ Submit an academic advising appointment request, validate the request with busin
 
 ## Out-of-Scope / Known Limitations
 
-Actual UH students & advisors are not used
-An actual confirmation link / email is not sent.
-This is NOT a complete advisor request platform with an interactive calendar
-Advisors do not accept or deny requests. Advisors are mock data entered by hand.
-Each advisor window is an open meeting that anyone can join, so there is no overlap checking.
-There are no time-of-day checks. Students request a date, and the hours shown are informational.
+Actual UH students & advisors are not used. An actual confirmation link / email is not sent. This is NOT a complete advisor request platform with an interactive calendar. Advisors do not accept or deny requests. Advisors are mock data entered by hand. Each advisor window is an open meeting that anyone can join, so there is no overlap checking. There are no time-of-day checks. Students request a date, and the hours shown are informational.
