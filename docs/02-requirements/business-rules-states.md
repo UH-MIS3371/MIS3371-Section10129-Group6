@@ -2,11 +2,13 @@
 
 ## Rules
 
-- Appointments must be during advisor's available hours
-- Advisor can't have overlapping appointments
-- PSID must be input validated
-- Student (PSID & Name) must exist in database
-- Student's major must be eligible for the appointment reasoning
+- The PSID must be 7 digits and exist in the Students database.
+- The email must be a student email ending in @cougarnet.uh.edu.
+- The email must match the email stored for that PSID in the Students database.
+- The student's college must match the advisor's college.
+- The requested date must be after today.
+- The selected advisor must be available on the requested date.
+- The selected time must be during the college’s hours.
 
 ## States
 
