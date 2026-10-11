@@ -1,6 +1,6 @@
 const STUDENT_ID_LENGTH = 7;
 
-const form = document.querySelector("#transaction-form.html");
+const form = document.querySelector("#transaction-form");
 const studentId = document.querySelector('#psid');
 const idMessage = document.querySelector('#validstudentId');
 const studentMajor = document.querySelector('#studentMajor');
@@ -68,14 +68,31 @@ function updateValidStudentIdMessage()
     idMessage.textContent = 'Please enter a valid 7-digit PSID.';
 }
 
-//handles the form submission event, but we have nothing for that yet
-function handleDemoSubmit(event)
+//blocks submission when the selected advisor does not match the student's major
+function handleFormSubmit(event)
 {
-  event.preventDefault();
-  console.log('Demo submit intercepted. No server is connected yet.');
+  const advisor = String(advisorName.value);
+  const major = String(studentMajor.value);
+
+  if (!checkAdvisor(advisor, major))
+  {
+    event.preventDefault();
+    advisorMessage.textContent = 'Please choose the correct advisor for your major';
+  }
 }
 
 studentId.addEventListener('input', updateValidStudentIdMessage);
 advisorName.addEventListener('input', updateValidAdvisorMessage);
 studentMajor.addEventListener('input', updateValidAdvisorMessage);
-form.addEventListener('submit', handleDemoSubmit);
+form.addEventListener('submit', handleFormSubmit);
+
+/*
+
+TEST CASES:
+
+Correct advisor / matching major: Accounting + advisor1 → valid; submission is allowed.
+Incorrect advisor / mismatched major: Finance + advisor1 → shows an error; submission is blocked.
+PSID below boundary: 6 characters → invalid.
+PSID at boundary: 7 characters → valid.
+PSID above boundary: 8 characters → invalid.
+*/
