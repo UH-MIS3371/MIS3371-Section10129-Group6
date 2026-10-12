@@ -14,7 +14,7 @@ const emailMessage = document.querySelector('#validEmail');
 function checksEmail(email)
 {
   email = String(studentEmail.value);
-  return email.includes('@cougarnet.uh.edu');
+  return email.endsWith('@cougarnet.uh.edu');
 }
 
 //checks if the advisor matches the major of the student
