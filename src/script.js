@@ -6,6 +6,16 @@ const idMessage = document.querySelector('#validstudentId');
 const studentMajor = document.querySelector('#studentMajor');
 const advisorName = document.querySelector('#advisorName');
 const advisorMessage = document.querySelector('#validAdvisor');
+const submitMessage = document.querySelector('#submitMessage');
+const studentEmail = document.querySelector('#studentEmail');
+const emailMessage = document.querySelector('#validEmail');
+
+//checks if the email is a valid UH email address
+function checksEmail(email)
+{
+  email = String(studentEmail.value);
+  return email.includes('@cougarnet.uh.edu');
+}
 
 //checks if the advisor matches the major of the student
 function checkAdvisor(advisor, major)
@@ -32,6 +42,23 @@ function checkAdvisor(advisor, major)
 function checkStudentId(id)
 {
   return id.length === STUDENT_ID_LENGTH;
+}
+
+//updates the message for the email input field
+function updateValidEmailMessage()
+{
+  const email = String(studentEmail.value);
+
+  if (email === '')
+  {
+    emailMessage.textContent = '';
+    return;
+  }
+
+  if (checksEmail(email))
+    emailMessage.textContent = 'Valid UH Email';
+  else
+    emailMessage.textContent = 'Please enter a valid UH Email';
 }
 
 //updates the message for the advisor input field
@@ -63,9 +90,9 @@ function updateValidStudentIdMessage()
     return;
   } 
   if(checkStudentId(studentID))
-    idMessage.textContent = 'Valid PSID.';
+    idMessage.textContent = 'Valid PSID';
   else
-    idMessage.textContent = 'Please enter a valid 7-digit PSID.';
+    idMessage.textContent = 'Please enter a valid 7-digit PSID';
 }
 
 //blocks submission when the selected advisor does not match the student's major
@@ -77,17 +104,17 @@ function handleFormSubmit(event)
   if (!checkAdvisor(advisor, major))
   {
     event.preventDefault();
-    advisorMessage.textContent = 'Please choose the correct advisor for your major';
+    submitMessage.textContent = 'You have not chosen the correct advisor for your major';
   }
 }
 
 studentId.addEventListener('input', updateValidStudentIdMessage);
 advisorName.addEventListener('input', updateValidAdvisorMessage);
 studentMajor.addEventListener('input', updateValidAdvisorMessage);
+studentEmail.addEventListener('input', updateValidEmailMessage);
 form.addEventListener('submit', handleFormSubmit);
 
 /*
-
 TEST CASES:
 
 Correct advisor / matching major: Accounting + advisor1 → valid; submission is allowed.
@@ -96,3 +123,8 @@ PSID below boundary: 6 characters → invalid.
 PSID at boundary: 7 characters → valid.
 PSID above boundary: 8 characters → invalid.
 */
+console.log("Correct advisor / matching major:", checkAdvisor('advisor1', 'accounting')); // true
+console.log("Incorrect advisor / mismatched major:", checkAdvisor('advisor1', 'finance')); // false
+console.log("PSID below boundary:", checkStudentId('123456')); // false
+console.log("PSID at boundary:", checkStudentId('1234567')); // true
+console.log("PSID above boundary:", checkStudentId('12345678')); // false

@@ -37,14 +37,14 @@
                 type="text"
                 required>
             </div>
-             <div class = "form-group"> 
-            <label for="studentEmail">Student Email</label>
-              <input
-              id="studentEmail"
-              name="studentEmail"
-              type="text"
-              required
-              >
+            <div class = "form-group"> 
+              <label for="studentEmail">Student Email</label>
+                <input
+                id="studentEmail"
+                name="studentEmail"
+                type="text"
+                required>
+              <p class = "bold-text" id="validEmail" aria-live="polite"></p>
             </div>
             <div class = "form-group">
               <label for="psid">PSID</label>
@@ -56,7 +56,7 @@
                 pattern="[0-9]{7}"
                 maxlength="7"
                 required>
-              <p id="validstudentId" aria-live="polite"></p>
+              <p class = "bold-text" id="validstudentId" aria-live="polite"></p>
             </div>
           </div>      
 
@@ -155,7 +155,7 @@
                 <option value="advisor10">Kathleen Krysher (Management Information Systems)</option>
                 <option value="advisor11">Rima Attar (Supply Chain Management)</option>
               </select>
-              <p id="validAdvisor" aria-live="polite"></p>
+              <p class = "bold-text" id="validAdvisor" aria-live="polite"></p>
             </div>
 
             <div class = "form-group">
@@ -184,6 +184,7 @@
         </fieldset>
 
         <button type="submit">Submit Request</button>
+        <p class = "bold-text" id="submitMessage" aria-live="polite"></p>
       </form>
     </section>
   </main>

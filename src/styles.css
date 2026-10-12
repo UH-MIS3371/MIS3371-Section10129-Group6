@@ -10,6 +10,11 @@ body {
   background: #f4f5f7;
 }
 
+.bold-text {
+  font-weight: 700;
+  color: #8b0f26;
+}
+
 .page-container {
   width: 92%;
   max-width: 1000px;
