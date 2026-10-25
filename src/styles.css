@@ -149,6 +149,18 @@ button:focus-visible {
   outline-offset: 3px;
 }
 
+.form-message {
+  margin: 12px 0 0;
+}
+
+.form-message.error-message {
+  color: #8b0f26;
+}
+
+.form-message.success-message {
+  color: #176b36;
+}
+
 @media (max-width: 700px) {
   .site-header {
     padding: 28px 0;
