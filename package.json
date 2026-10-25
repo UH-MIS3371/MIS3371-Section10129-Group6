@@ -1,0 +1,12 @@
+{
+  "name": "mis3371-section10129-group6",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node server/server.js",
+    "test": "node backend/test-backend.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
