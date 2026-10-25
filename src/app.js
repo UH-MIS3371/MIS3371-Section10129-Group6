@@ -1,130 +1,197 @@
 const STUDENT_ID_LENGTH = 7;
+const ADVISORS_BY_MAJOR = {
+  accounting: ["advisor1", "advisor2", "advisor3"],
+  finance: ["advisor4", "advisor5"],
+  management: ["advisor6"],
+  marketing: ["advisor7"],
+  entrepreneurship: ["advisor7", "advisor8"],
+  managementInformationSystems: ["advisor9", "advisor10"],
+  supplyChainManagement: ["advisor11"],
+};
 
 const form = document.querySelector("#transaction-form");
-const studentId = document.querySelector('#psid');
-const idMessage = document.querySelector('#validstudentId');
-const studentMajor = document.querySelector('#studentMajor');
-const advisorName = document.querySelector('#advisorName');
-const advisorMessage = document.querySelector('#validAdvisor');
-const submitMessage = document.querySelector('#submitMessage');
-const studentEmail = document.querySelector('#studentEmail');
-const emailMessage = document.querySelector('#validEmail');
+const submitButton = form.querySelector('button[type="submit"]');
+const submitMessage = document.querySelector("#submitMessage");
+const studentId = document.querySelector("#psid");
+const idMessage = document.querySelector("#validstudentId");
+const studentMajor = document.querySelector("#studentMajor");
+const graduationTerm = document.querySelector("#gradTerm");
+const graduationYear = document.querySelector("#gradYear");
+const advisorName = document.querySelector("#advisorName");
+const advisorMessage = document.querySelector("#validAdvisor");
+const studentEmail = document.querySelector("#studentEmail");
+const emailMessage = document.querySelector("#validEmail");
+const advisingDate = document.querySelector("#advisingDate");
+const advisingTime = document.querySelector("#advisingTime");
+const appointmentType = document.querySelector("#appointmentType");
+const appointmentPurpose = document.querySelector("#description");
+const studentName = document.querySelector("#studentName");
 
-//checks if the email is a valid UH email address
-function checksEmail(email)
-{
-  email = String(studentEmail.value);
-  return email.endsWith('@cougarnet.uh.edu');
+function localDateString(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
 }
 
-//checks if the advisor matches the major of the student
-function checkAdvisor(advisor, major)
-{
-  if ((advisor === 'advisor1' || advisor === 'advisor2' || advisor === 'advisor3') && major === 'accounting')
-    return true;
-  else if ((advisor === 'advisor4' || advisor === 'advisor5') && major === 'finance')
-    return true;
-  else if (advisor === 'advisor6' && major === 'management')
-    return true;
-  else if (advisor === 'advisor7' && major === 'marketing')
-    return true;
-  else if ((advisor === 'advisor7' || advisor === 'advisor8') && major === 'entrepreneurship')
-    return true;
-  else if ((advisor === 'advisor9' || advisor === 'advisor10') && major === 'managementInformationSystems')
-    return true;
-  else if (advisor === 'advisor11' && major === 'supplyChainManagement')
-    return true;
-  else
-    return false;
+function tomorrowLocalString() {
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  return localDateString(tomorrow);
 }
 
-//checks if the student ID has the correct length of 7 digits
-function checkStudentId(id)
-{
+function setFormMessage(message, type = "") {
+  submitMessage.textContent = message;
+  submitMessage.className = type
+    ? `form-message ${type}-message`
+    : "form-message";
+}
+
+function checkEmail(email) {
+  return email.endsWith("@cougarnet.uh.edu");
+}
+
+function checkAdvisor(advisor, major) {
+  return ADVISORS_BY_MAJOR[major]?.includes(advisor) ?? false;
+}
+
+function checkStudentId(id) {
   return id.length === STUDENT_ID_LENGTH;
 }
 
-//updates the message for the email input field
-function updateValidEmailMessage()
-{
-  const email = String(studentEmail.value);
-
-  if (email === '')
-  {
-    emailMessage.textContent = '';
+function updateValidationMessage(
+  element,
+  value,
+  isValid,
+  validText,
+  invalidText,
+) {
+  if (value === "") {
+    element.textContent = "";
     return;
   }
 
-  if (checksEmail(email))
-    emailMessage.textContent = 'Valid UH Email';
-  else
-    emailMessage.textContent = 'Please enter a valid UH Email';
+  element.textContent = isValid ? validText : invalidText;
 }
 
-//updates the message for the advisor input field
-function updateValidAdvisorMessage()
-{
-  const advisor = String(advisorName.value);
-  const major = String(studentMajor.value);
+function updateValidEmailMessage() {
+  const email = studentEmail.value;
+  updateValidationMessage(
+    emailMessage,
+    email,
+    checkEmail(email.trim()),
+    "Valid UH Email",
+    "Please enter a valid UH Email",
+  );
+}
 
-  if (advisor === '')
-  {
-    advisorMessage.textContent = '';
+function updateValidAdvisorMessage() {
+  const advisor = advisorName.value;
+  const major = studentMajor.value;
+  updateValidationMessage(
+    advisorMessage,
+    advisor,
+    checkAdvisor(advisor, major),
+    "Correct advisor chosen",
+    "Please choose the correct advisor for your major",
+  );
+}
+
+function updateValidStudentIdMessage() {
+  const id = studentId.value;
+  updateValidationMessage(
+    idMessage,
+    id,
+    checkStudentId(id),
+    "Valid PSID",
+    "Please enter a valid 7-digit PSID",
+  );
+}
+
+async function handleSubmit(event) {
+  event.preventDefault();
+
+  setFormMessage("");
+
+  if (!form.reportValidity()) return;
+
+  if (!checkEmail(studentEmail.value.trim())) {
+    setFormMessage("Please enter a valid UH email address.", "error");
+    studentEmail.focus();
     return;
   }
-  
-  if (checkAdvisor(advisor, major))
-    advisorMessage.textContent = 'Correct advisor chosen';
-  else
-    advisorMessage.textContent = 'Please choose the correct advisor for your major';
-}
 
-//updates the message for the student ID input field
-function updateValidStudentIdMessage()
-{
-  const studentID = String(studentId.value);
-
-  if (studentID === '')
-  {
-    idMessage.textContent = '';
+  if (!checkStudentId(studentId.value)) {
+    setFormMessage("Please enter a valid 7-digit PSID.", "error");
+    studentId.focus();
     return;
-  } 
-  if(checkStudentId(studentID))
-    idMessage.textContent = 'Valid PSID';
-  else
-    idMessage.textContent = 'Please enter a valid 7-digit PSID';
-}
+  }
 
-//blocks submission when the selected advisor does not match the student's major
-function handleFormSubmit(event)
-{
-  const advisor = String(advisorName.value);
-  const major = String(studentMajor.value);
+  if (!checkAdvisor(advisorName.value, studentMajor.value)) {
+    setFormMessage("Please choose an advisor who matches your major.", "error");
+    advisorName.focus();
+    return;
+  }
 
-  if (!checkAdvisor(advisor, major))
-  {
-    event.preventDefault();
-    submitMessage.textContent = 'You have not chosen the correct advisor for your major';
+  advisingDate.min = tomorrowLocalString();
+  if (advisingDate.value < advisingDate.min) {
+    setFormMessage(
+      "Please choose an advising date starting tomorrow.",
+      "error",
+    );
+    advisingDate.focus();
+    return;
+  }
+
+  const request = {
+    studentName: studentName.value.trim(),
+    studentEmail: studentEmail.value.trim(),
+    email: studentEmail.value.trim(),
+    psid: studentId.value.trim(),
+    studentMajor: studentMajor.value,
+    graduationTerm: graduationTerm.value,
+    graduationYear: Number(graduationYear.value),
+    advisingDate: advisingDate.value,
+    advisingTime: advisingTime.value,
+    advisorName: advisorName.value,
+    appointmentType: appointmentType.value,
+    appointmentPurpose: appointmentPurpose.value.trim(),
+    date: advisingDate.value,
+  };
+
+  submitButton.disabled = true;
+  setFormMessage("Sending your advising request...");
+
+  try {
+    const response = await fetch("/api/expenses", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(request),
+    });
+
+    const result = await response.json(); // apparently response only responds when the status code is sent, so other day may still be transmitting
+
+    if (!response.ok) {
+      setFormMessage(
+        "There was an issue submitting the form. Please check check your data and submit again.",
+      );
+      return;
+    }
+
+    setFormMessage(`Local API accepted (not saved) ${response.message}`);
+  } catch (error) {
+    console.error("The API Request Failed", error);
+    setFormMessage(
+      "Could not reach the local API or your server is not running.",
+    );
+  } finally {
+    submitButton.disabled = false;
   }
 }
 
-studentId.addEventListener('input', updateValidStudentIdMessage);
-advisorName.addEventListener('input', updateValidAdvisorMessage);
-studentMajor.addEventListener('input', updateValidAdvisorMessage);
-studentEmail.addEventListener('input', updateValidEmailMessage);
-form.addEventListener('submit', handleFormSubmit);
-
-/*
-TEST CASES:
-
-Correct advisor / matching major: Accounting + advisor1 → valid; submission is allowed.
-Incorrect advisor / mismatched major: Finance + advisor1 → shows an error; submission is blocked.
-PSID below boundary: 6 characters → invalid.
-PSID at boundary: 7 characters → valid.
-PSID above boundary: 8 characters → invalid.
-*/
-console.log("Correct advisor / matching major:", checkAdvisor('advisor1', 'accounting')); // true
-console.log("Incorrect advisor / mismatched major:", checkAdvisor('advisor1', 'finance')); // false
-console.log("PSID below boundary:", checkStudentId('123456')); // false
-console.log("PSID at boundary:", checkStudentId('1234567')); // true
-console.log("PSID above boundary:", checkStudentId('12345678')); // false
+advisingDate.min = tomorrowLocalString();
+studentId.addEventListener("input", updateValidStudentIdMessage);
+advisorName.addEventListener("input", updateValidAdvisorMessage);
+studentMajor.addEventListener("input", updateValidAdvisorMessage);
+studentEmail.addEventListener("input", updateValidEmailMessage);
+form.addEventListener("submit", handleSubmit);
