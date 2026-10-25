@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node server/server.js",
-    "test": "node backend/test-backend.js"
+    "test": "node backend/test-backend.js && node --test server/test-api.js"
   },
   "dependencies": {
     "express": "^4.21.2"
