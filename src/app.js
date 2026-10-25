@@ -169,20 +169,39 @@ async function handleSubmit(event) {
       body: JSON.stringify(request),
     });
 
-    const result = await response.json(); // apparently response only responds when the status code is sent, so other day may still be transmitting
-
-    if (!response.ok) {
+    let result;
+    try {
+      result = await response.json();
+    } catch (error) {
+      console.error("The API returned an invalid JSON response", error);
       setFormMessage(
-        "There was an issue submitting the form. Please check check your data and submit again.",
+        "The server returned an unreadable response. Please try again.",
+        "error",
       );
       return;
     }
 
-    setFormMessage(`Local API accepted (not saved) ${response.message}`);
+    if (!response.ok || !result.success) {
+      setFormMessage(
+        result.message ||
+          "Your request was rejected. Please check your information.",
+        "error",
+      );
+      return;
+    }
+
+    const transactionId = result.transactionId
+      ? ` Request ID: ${result.transactionId}.`
+      : "";
+    setFormMessage(
+      `${result.message || "Your request was accepted."}${transactionId}`,
+      "success",
+    );
   } catch (error) {
     console.error("The API Request Failed", error);
     setFormMessage(
-      "Could not reach the local API or your server is not running.",
+      "Could not connect to the local API. Check that the server is running and try again.",
+      "error",
     );
   } finally {
     submitButton.disabled = false;

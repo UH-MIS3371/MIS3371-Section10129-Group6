@@ -21,3 +21,5 @@ if (require.main === module) {
     console.log("The app runs locally. No database or AWS is used yet.");
   });
 }
+
+module.exports = app;
