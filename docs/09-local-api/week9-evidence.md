@@ -32,6 +32,17 @@ browser request:
 
 The generated transaction ID and timestamp vary between runs.
 
+### Browser: successful request (HTTP 200)
+
+The form submission is visible in Chrome DevTools Network. The screenshots show
+the accepted response, request headers, and JSON payload.
+
+![Successful browser request and response preview](./images/200-preview.png)
+
+![Successful browser request headers and HTTP 200 status](./images/200-header.png)
+
+![Successful browser request JSON payload](./images/200-payload.png)
+
 Submitting a form with an invalid PSID produced this browser response:
 
 ```json
@@ -46,6 +57,17 @@ The same backend message was displayed on the page, and the submit button was
 enabled afterward. To exercise the backend rejection while keeping the form's
 client-side PSID check satisfied, the browser verification altered the outgoing
 request PSID to `123`.
+
+### Browser: rejected request (HTTP 400)
+
+The invalid-PSID JSON request was sent from the browser and rejected by the API.
+The screenshots show its HTTP 400 status, request payload, and backend message.
+
+![Rejected browser request and backend message](./images/400-preview.png)
+
+![Rejected browser request headers and HTTP 400 status](./images/400-header.png)
+
+![Rejected browser request JSON payload](./images/400-payload.png)
 
 An aborted request was also used to exercise the connection-error path. The page
 displayed `Could not connect to the local API. Check that the server is running
@@ -65,6 +87,8 @@ curl -i -X POST http://localhost:3000/api/expenses \
 Expected status: `HTTP/1.1 200 OK`. The JSON body has `success: true`, status
 `Submitted`, and message `Your request has been sent!`.
 
+![Successful curl request and HTTP 200 JSON response](./images/200-curl.png)
+
 Rejected request (invalid PSID):
 
 ```sh
@@ -75,6 +99,8 @@ curl -i -X POST http://localhost:3000/api/expenses \
 
 Expected status: `HTTP/1.1 400 Bad Request`. The JSON body has `success: false`
 and message `The PSID length is incorrect`.
+
+![Rejected curl request and HTTP 400 JSON response](./images/400-curl.png)
 
 ## Expected-versus-actual API tests
 
