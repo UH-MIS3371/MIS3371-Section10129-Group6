@@ -122,6 +122,10 @@ checks that a transaction ID and `Submitted` status are returned. The command
 exits with a nonzero status if any API assertion fails. Run the original Week 8
 business-logic checks independently with `npm run test:backend`.
 
+The captured test run shows all six API tests passing:
+
+![Week 9 API test results: six tests passed](./images/api-test.png)
+
 The six cases cover:
 
 1. PSID must contain exactly seven digits.
