@@ -13,9 +13,17 @@ Open <http://localhost:3000> and submit the advising form. The browser sends
 JSON to `POST /api/expenses`; the server passes the request to the Week 8
 `processRequest` function and returns its JSON result.
 
-Stop the server with `Ctrl+C`. Run tests with `npm test`. That command runs
-the existing Week 8 backend checks in `backend/test-backend.js`, followed by
-the six HTTP/API tests in `server/test-api.js`.
+Stop the server with `Ctrl+C`. Run the Week 9 HTTP/API tests separately:
+
+```sh
+npm run test:api
+```
+
+To run the Week 8 business-logic checks separately:
+
+```sh
+npm run test:backend
+```
 
 ## Network request and response
 
@@ -104,12 +112,12 @@ and message `The PSID length is incorrect`.
 
 ## Expected-versus-actual API tests
 
-Run `npm test` to execute the original Week 8 backend checks and six Week 9
-HTTP tests. The API tests send JSON to a temporary local Express server and
-compare expected HTTP status, success value, and backend message with the
-actual response. The accepted case also checks that a transaction ID and
-`Submitted` status are returned. The test command exits with a nonzero status
-if any API assertion fails.
+Run `npm run test:api` to execute the six Week 9 HTTP tests. They send JSON to
+a temporary local Express server and compare expected HTTP status, success
+value, and backend message with the actual response. The accepted case also
+checks that a transaction ID and `Submitted` status are returned. The command
+exits with a nonzero status if any API assertion fails. Run the original Week 8
+business-logic checks independently with `npm run test:backend`.
 
 The six cases cover:
 
