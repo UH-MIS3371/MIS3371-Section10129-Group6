@@ -77,9 +77,12 @@ The screenshots show its HTTP 400 status, request payload, and backend message.
 
 ![Rejected browser request JSON payload](./images/400-payload.png)
 
-An aborted request was also used to exercise the connection-error path. The page
+The connection-error path was tested with the server unavailable. Since no API
+response is received, this request has no HTTP status or JSON response. The page
 displayed `Could not connect to the local API. Check that the server is running
 and try again.` and re-enabled the button.
+
+![Browser connection failure message when the API server is unavailable](./images/network-failure.png)
 
 The following curl commands reproduce the valid and rejected endpoint responses
 while the server is running.
