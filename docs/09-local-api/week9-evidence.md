@@ -134,3 +134,8 @@ The six cases cover:
 4. A date in the past is rejected.
 5. Today's date is rejected.
 6. Tomorrow's date is accepted.
+
+## Team contributions
+
+Week 9 contribution scores are recorded by in the
+[team contribution tracker](../team_contribution_tracker.xlsx). Exact contributions will be under @ebadrehmann and collaborators are listed on commits. 
