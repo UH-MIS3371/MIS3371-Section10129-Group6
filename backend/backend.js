@@ -6,7 +6,7 @@ example input, i've omitted some fields for the current milestone assignment for
   "studentName": "Jane Doe",
   "studentEmail": "jdoe@cougarnet.uh.edu",
   "psid": "1234567",
-  "studentMajor": "Computer Science",
+  "studentMajor": "Management Information Systems",
   "graduationTerm": "Spring",
   "graduationYear": 2027,
   "advisingDate": "2099-06-15",
