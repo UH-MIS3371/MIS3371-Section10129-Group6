@@ -3,71 +3,109 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Request an academic advising appointment with Bauer College of Business."
+    />
     <link rel="stylesheet" href="styles.css" />
     <script src="app.js" defer></script>
-    <title>Bauer Academic Request</title>
+    <title>Academic Advising | Bauer College</title>
   </head>
   <body>
     <header class="site-header">
-      <div class="page-container">
-        <h1>Bauer Academic Advising</h1>
-        <p>Submit a request for an advising appointment</p>
+      <div class="page-container header-content">
+        <div class="brand-lockup" aria-label="C.T. Bauer College of Business">
+          <span class="brand-mark">
+            <img
+              src="uhLogo.png"
+              alt="University of Houston logo"
+              width="44"
+              height="44"
+            />
+          </span>
+          <span class="brand-name">
+            <span class="brand-university">University of Houston</span>
+            <span class="brand-college">C.T. Bauer College of Business</span>
+          </span>
+        </div>
+        <span class="header-label">Academic Advising</span>
       </div>
     </header>
 
     <main class="page-container">
-      <section class="intro-section">
-        <h2>Before You Submit</h2>
-        <p>
-          Please have your student PSID, reason for visit, specific academic
-          advisor, and date/time prepared
+      <section class="page-intro" aria-labelledby="page-title">
+        <p class="eyebrow">Student services <span aria-hidden="true">/</span> Advising</p>
+        <h1 id="page-title">Let’s plan your next step!</h1>
+        <p class="intro-copy">
+          Tell us a little about yourself and what you’d like to discuss. We’ll
+          use these details to prepare for your advising appointment.
         </p>
       </section>
 
-      <section>
-        <h2>Appointment Details</h2>
+      <aside class="prep-panel" aria-labelledby="prep-heading">
+        <div class="prep-icon" aria-hidden="true">i</div>
+        <div>
+          <h2 id="prep-heading">Before you begin</h2>
+          <p>
+            Have your 7-digit PSID, Cougarnet email, intended graduation term,
+            and a few details about what you’d like help with.
+          </p>
+        </div>
+      </aside>
+
+      <section class="form-card" aria-labelledby="form-heading">
+        <div class="form-card-heading">
+          <p class="eyebrow">Appointment request</p>
+          <h2 id="form-heading">Academic advising details</h2>
+          <p>Fields marked <span class="required-mark">*</span> are required.</p>
+        </div>
 
         <form method="get" id="transaction-form">
           <fieldset>
-            <legend>Advising Information</legend>
-            <div class="form-row">
+            <legend>Student information</legend>
+            <div class="form-grid">
               <div class="form-group">
-                <label for="studentName">Student Name</label>
+                <label for="studentName">Full name <span class="required-mark">*</span></label>
                 <input
                   id="studentName"
                   name="studentName"
                   type="text"
+                  autocomplete="name"
+                  placeholder="Your first and last name"
                   required
                 />
               </div>
               <div class="form-group">
-                <label for="studentEmail">Student Email</label>
+                <label for="studentEmail">Cougarnet email <span class="required-mark">*</span></label>
                 <input
                   id="studentEmail"
                   name="studentEmail"
-                  type="text"
+                  type="email"
+                  autocomplete="email"
+                  placeholder="you@cougarnet.uh.edu"
+                  aria-describedby="emailHelp validEmail"
                   required
                 />
-                <p class="bold-text" id="validEmail" aria-live="polite"></p>
+                <small class="field-help" id="emailHelp">Use your @cougarnet.uh.edu address.</small>
+                <p class="field-feedback" id="validEmail" aria-live="polite"></p>
               </div>
               <div class="form-group">
-                <label for="psid">PSID</label>
+                <label for="psid">PSID <span class="required-mark">*</span></label>
                 <input
                   id="psid"
                   name="psid"
                   type="text"
                   inputmode="numeric"
-                  pattern="[0-9]{7}"
                   maxlength="7"
+                  placeholder="7-digit student ID"
+                  aria-describedby="psidHelp validstudentId"
                   required
                 />
-                <p class="bold-text" id="validstudentId" aria-live="polite"></p>
+                <small class="field-help" id="psidHelp">Enter all 7 digits.</small>
+                <p class="field-feedback" id="validstudentId" aria-live="polite"></p>
               </div>
-            </div>
-
-            <div class="form-row">
               <div class="form-group">
-                <label for="studentMajor">Student Major</label>
+                <label for="studentMajor">Student major <span class="required-mark">*</span></label>
                 <select id="studentMajor" name="studentMajor" required>
                   <option value="">Select your major</option>
                   <option value="accounting">Accounting</option>
@@ -83,21 +121,19 @@
                   </option>
                 </select>
               </div>
-
               <div class="form-group">
-                <label for="gradTerm">Graduation Term</label>
+                <label for="gradTerm">Graduation term <span class="required-mark">*</span></label>
                 <select id="gradTerm" name="gradTerm" required>
-                  <option value="">Select your graduation term</option>
+                  <option value="">Select a term</option>
                   <option value="spring">Spring</option>
                   <option value="summer">Summer</option>
                   <option value="fall">Fall</option>
                 </select>
               </div>
-
               <div class="form-group">
-                <label for="gradYear">Graduation Year</label>
+                <label for="gradYear">Graduation year <span class="required-mark">*</span></label>
                 <select id="gradYear" name="gradYear" required>
-                  <option value="">Select your graduation year</option>
+                  <option value="">Select a year</option>
                   <option value="2026">2026</option>
                   <option value="2027">2027</option>
                   <option value="2028">2028</option>
@@ -106,88 +142,102 @@
                 </select>
               </div>
             </div>
+          </fieldset>
 
-            <div class="form-row">
+          <fieldset>
+            <legend>Appointment details</legend>
+            <div class="form-grid">
               <div class="form-group">
-                <label for="advisingDate">Advising Date</label>
+                <label for="advisingDate">Preferred date <span class="required-mark">*</span></label>
                 <input
                   id="advisingDate"
                   name="advisingDate"
                   type="date"
+                  aria-describedby="dateHelp"
                   required
                 />
+                <small class="field-help" id="dateHelp">Appointments are requested for a future date.</small>
               </div>
-
               <div class="form-group">
-                <label for="advisingTime">Advising Time</label>
+                <label for="advisingTime">Preferred time <span class="required-mark">*</span></label>
                 <input
                   id="advisingTime"
                   name="advisingTime"
                   type="time"
+                  step="900"
+                  aria-describedby="timeHelp"
                   required
                 />
-                <!--I will work on refining the time portion, wanted to have something for now.-->
+                <small class="field-help" id="timeHelp">Choose a time within business hours.</small>
               </div>
-            </div>
-
-            <div class="form-row">
               <div class="form-group">
-                <label for="advisorName">Advisor Name</label>
-                <select id="advisorName" name="advisorName" required>
+                <label for="advisorName">Advisor <span class="required-mark">*</span></label>
+                <select
+                  id="advisorName"
+                  name="advisorName"
+                  aria-describedby="advisorHelp validAdvisor"
+                  required
+                >
                   <option value="">Select an advisor</option>
                   <option value="advisor1">Yareli Olivares (Accounting)</option>
                   <option value="advisor2">Dillion Kent (Accounting)</option>
-                  <option value="advisor3">
-                    Kierstyn Stevens (Accounting)
-                  </option>
+                  <option value="advisor3">Kierstyn Stevens (Accounting)</option>
                   <option value="advisor4">Bethany Rose (Finance)</option>
                   <option value="advisor5">Jenell Hamilton (Finance)</option>
                   <option value="advisor6">Erica Mahan (Management)</option>
                   <option value="advisor7">
-                    Kishwar Kabiruddin (Marketing & Entrepreneurship)
+                    Kishwar Kabiruddin (Marketing &amp; Entrepreneurship)
                   </option>
-                  <option value="advisor8">
-                    Asha Thomas (Entrepreneurship)
-                  </option>
+                  <option value="advisor8">Asha Thomas (Entrepreneurship)</option>
                   <option value="advisor9">
                     Jailyn Morris (Management Information Systems)
                   </option>
                   <option value="advisor10">
                     Kathleen Krysher (Management Information Systems)
                   </option>
-                  <option value="advisor11">
-                    Rima Attar (Supply Chain Management)
-                  </option>
+                  <option value="advisor11">Rima Attar (Supply Chain Management)</option>
                 </select>
-                <p class="bold-text" id="validAdvisor" aria-live="polite"></p>
+                <small class="field-help" id="advisorHelp">Choose an advisor who supports your major.</small>
+                <p class="field-feedback" id="validAdvisor" aria-live="polite"></p>
               </div>
-
               <div class="form-group">
-                <label for="appointmentType">Appointment Type</label>
+                <label for="appointmentType">Meeting format <span class="required-mark">*</span></label>
                 <select id="appointmentType" name="appointmentType" required>
-                  <option value="">Select an appointment type</option>
+                  <option value="">Select a format</option>
                   <option value="virtual">Virtual</option>
-                  <option value="in-person">In-Person</option>
+                  <option value="in-person">In-person</option>
                 </select>
               </div>
-            </div>
-
-            <div class="form-group">
-              <label for="description">Appointment Purpose / Description</label>
-              <textarea
-                id="description"
-                name="description"
-                rows="4"
-                cols="45"
-                required
-              ></textarea>
+              <div class="form-group form-group-wide">
+                <label for="description">What would you like to discuss? <span class="required-mark">*</span></label>
+                <textarea
+                  id="description"
+                  name="description"
+                  rows="5"
+                  placeholder="Share a few details so your advisor can prepare."
+                  required
+                ></textarea>
+              </div>
             </div>
           </fieldset>
 
-          <button type="submit">Submit Request</button>
-          <p class="bold-text" id="submitMessage" aria-live="polite"></p>
+          <div class="form-actions">
+            <p class="privacy-note">
+              Your information will be used to coordinate your advising request.
+            </p>
+            <button type="submit">
+              Submit advising request
+              <span aria-hidden="true">→</span>
+            </button>
+          </div>
+          <p class="form-message" id="submitMessage" aria-live="polite"></p>
         </form>
       </section>
+
+      <footer class="page-footer">
+        <span>Bauer College of Business</span>
+        <span>University of Houston</span>
+      </footer>
     </main>
   </body>
 </html>

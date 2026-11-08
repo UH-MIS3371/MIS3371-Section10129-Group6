@@ -68,10 +68,12 @@ function updateValidationMessage(
 ) {
   if (value === "") {
     element.textContent = "";
+    element.className = "field-feedback";
     return;
   }
 
   element.textContent = isValid ? validText : invalidText;
+  element.className = `field-feedback ${isValid ? "is-valid" : "is-error"}`;
 }
 
 function updateValidEmailMessage() {
@@ -133,14 +135,29 @@ async function handleSubmit(event) {
     return;
   }
 
-  advisingDate.min = tomorrowLocalString();
-  if (advisingDate.value < advisingDate.min) {
+  if (advisingDate.value < tomorrowLocalString()) {
     setFormMessage(
       "Please choose an advising date starting tomorrow.",
       "error",
     );
     advisingDate.focus();
     return;
+  }
+
+  if (advisingTime.value < "09:00" || advisingTime.value > "16:45") {
+    if (advisingTime.value > "16:45" && advisingTime.value <= "17:00") {
+      setFormMessage(
+        "Please choose an advising time within 15 minutes of closing (5:00 PM).",
+        "error",
+      );
+    } else {
+      setFormMessage(
+        "Please choose an advising time during college hours (9:00 AM to 5:00 PM).",
+        "error",
+      );
+    }
+    advisingTime.focus();
+  return;
   }
 
   const request = {
@@ -210,7 +227,7 @@ async function handleSubmit(event) {
   }
 }
 
-advisingDate.min = tomorrowLocalString();
+
 studentId.addEventListener("input", updateValidStudentIdMessage);
 advisorName.addEventListener("input", updateValidAdvisorMessage);
 studentMajor.addEventListener("input", updateValidAdvisorMessage);
