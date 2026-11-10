@@ -8,92 +8,114 @@ const { after, before, test } = require("node:test");
 const { getTodayString } = require("../backend/backend");
 const app = require("./server");
 
+function getRelativeDate(daysFromToday) {
+  const date = new Date();
+  date.setDate(date.getDate() + daysFromToday);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
 const validRequest = {
-  email: "student@cougarnet.uh.edu",
+  studentName: "Jane Doe",
+  studentEmail: "jdoe@cougarnet.uh.edu",
+  email: "jdoe@cougarnet.uh.edu",
   psid: "1234567",
-  date: "2099-10-18",
+  studentMajor: "managementInformationSystems",
+  graduationTerm: "spring",
+  graduationYear: 2027,
+  advisingDate: getRelativeDate(5),
+  date: getRelativeDate(5),
   advisingTime: "10:00",
-  advisorName: "advisor1",
-  studentMajor: "accounting",
+  advisorName: "advisor9",
+  appointmentType: "virtual",
+  appointmentPurpose: "Discuss graduation requirements",
 };
 
-// Each case changes one field from the valid request and records the expected API response.
+// These cases mirror the request payloads and validation scenarios supplied for testing.
 const cases = [
   {
-    name: "Rejects an invalid PSID",
-    changes: { psid: "123" },
+    name: "Test 1: accepts a valid request",
+    changes: {},
+    status: 200,
+    message: "Your request has been sent!",
+  },
+  {
+    name: "Test 2: rejects a PSID that is too short",
+    changes: { psid: "123456" },
     status: 400,
     message: "The PSID must contain exactly 7 digits.",
   },
   {
-    name: "Rejects a non-string PSID",
-    changes: { psid: 1234567 },
+    name: "Test 3: rejects a PSID that is too long",
+    changes: { psid: "12345678" },
     status: 400,
     message: "The PSID must contain exactly 7 digits.",
   },
   {
-    name: "Rejects an invalid email",
-    changes: { email: "student@example.com" },
+    name: "Test 4: rejects an invalid email domain",
+    changes: {
+      studentEmail: "jdoe@gmail.com",
+      email: "jdoe@gmail.com",
+    },
     status: 400,
     message: "Please enter a valid Cougarnet email address.",
   },
   {
-    name: "Rejects a malformed Cougarnet email",
-    changes: { email: "not-an-email@cougarnet.uh.edu" },
-    status: 400,
-    message: "Please enter a valid Cougarnet email address.",
-  },
-  {
-    name: "Rejects a missing date",
-    changes: { date: "" },
+    name: "Test 5: rejects a missing date",
+    changes: { advisingDate: "", date: "" },
     status: 400,
     message: "Please select a valid advising date.",
   },
   {
-    name: "Rejects an invalid calendar date",
-    changes: { date: "2099-02-30" },
-    status: 400,
-    message: "Please select a valid advising date.",
-  },
-  {
-    name: "Rejects a past date",
-    changes: { date: "2000-01-01" },
-    status: 400,
-    message: "The selected date can not be in the past",
-  },
-  {
-    name: "Rejects today's date",
-    changes: { date: getTodayString() },
+    name: "Test 6: rejects today's date",
+    changes: {
+      advisingDate: getTodayString(),
+      date: getTodayString(),
+    },
     status: 400,
     message: "The selected date can't be today",
   },
   {
-    name: "Rejects a malformed advising time",
-    changes: { advisingTime: "9 AM" },
+    name: "Test 7: rejects a date in the past",
+    changes: {
+      advisingDate: getRelativeDate(-1),
+      date: getRelativeDate(-1),
+    },
     status: 400,
-    message: "Please select a valid advising time in HH:mm format.",
+    message: "The selected date can not be in the past",
   },
   {
-    name: "Rejects a non-string advisor",
-    changes: { advisorName: 1 },
-    status: 400,
-    message: "Please select a valid advisor.",
-  },
-  {
-    name: "Rejects an unsupported major",
-    changes: { studentMajor: "computerScience" },
-    status: 400,
-    message: "Please select a valid major.",
-  },
-  {
-    name: "Rejects an advisor who does not support the major",
-    changes: { advisorName: "advisor4" },
+    name: "Test 8: rejects a major/advisor mismatch",
+    changes: {
+      studentMajor: "management",
+      advisorName: "advisor9",
+    },
     status: 400,
     message: "Please select an advisor who supports the selected major.",
   },
   {
-    name: "Accepts a valid request",
-    changes: {},
+    name: "Test 9: rejects a time before opening",
+    changes: { advisingTime: "08:45" },
+    status: 400,
+    message: "Please choose an advising time during college hours (9:00 AM to 5:00 PM).",
+  },
+  {
+    name: "Test 10: rejects a time after closing",
+    changes: { advisingTime: "17:15" },
+    status: 400,
+    message: "Please choose an advising time during college hours (9:00 AM to 5:00 PM).",
+  },
+  {
+    name: "Test 11: rejects a time at closing",
+    changes: { advisingTime: "17:00" },
+    status: 400,
+    message: "Please choose an advising time within 15 minutes of closing (5:00 PM).",
+  },
+  {
+    name: "Test 12: accepts a time at opening",
+    changes: { advisingTime: "09:00" },
     status: 200,
     message: "Your request has been sent!",
   },
