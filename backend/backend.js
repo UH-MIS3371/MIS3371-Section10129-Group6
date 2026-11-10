@@ -1,22 +1,36 @@
 "use strict";
 
-/*
-example input, i've omitted some fields for the current milestone assignment for the sake of clarity & clean code, however we'll add more as we move on.
-{
-  "studentName": "Jane Doe",
-  "studentEmail": "jdoe@cougarnet.uh.edu",
-  "psid": "1234567",
-  "studentMajor": "Management Information Systems",
-  "graduationTerm": "Spring",
-  "graduationYear": 2027,
-  "advisingDate": "2099-06-15",
-  "advisingTime": "10:00",
-  "advisorName": "Dr. Smith",
-  "appointmentType": "Virtual",
-  "appointmentPurpose": "Discuss graduation requirements"
-}
-*/
-
+const MAJORS = [
+  "accounting",
+  "finance",
+  "management",
+  "marketing",
+  "entrepreneurship",
+  "managementInformationSystems",
+  "supplyChainManagement",
+];
+const ADVISORS = [
+  "advisor1",
+  "advisor2",
+  "advisor3",
+  "advisor4",
+  "advisor5",
+  "advisor6",
+  "advisor7",
+  "advisor8",
+  "advisor9",
+  "advisor10",
+  "advisor11",
+];
+const ADVISORS_BY_MAJOR = {
+  accounting: ["advisor1", "advisor2", "advisor3"],
+  finance: ["advisor4", "advisor5"],
+  management: ["advisor6"],
+  marketing: ["advisor7"],
+  entrepreneurship: ["advisor7", "advisor8"],
+  managementInformationSystems: ["advisor9", "advisor10"],
+  supplyChainManagement: ["advisor11"],
+};
 function getTodayString() {
   const today = new Date();
   const year = today.getFullYear();
@@ -35,50 +49,99 @@ function createTransactionId() {
 function fail(message) {
   return {
     success: false,
-    message
+    message,
   };
 }
 
+function isValidDate(date) {
+  if (typeof date !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+    return false;
+  }
 
-function processRequest(request){
-    if (!request)
-        return fail("Invalid request.");
+  const parsedDate = new Date(`${date}T00:00:00.000Z`);
+  return (
+    Number.isFinite(parsedDate.getTime()) &&
+    parsedDate.toISOString().slice(0, 10) === date
+  );
+}
 
-    const email = request.email || "";
-    const psid = String(request.psid || "");
-    const date = request.date; // selected through date input field, outputs in YYYY-MM-DD format
-    const today = getTodayString();
+function checkAdvisor(advisor, major) {
+  return ADVISORS_BY_MAJOR[major]?.includes(advisor) ?? false;
+}
 
-    // psid must be 7 digits
-    if (!/^\d{7}$/.test(psid))
-        return fail("The PSID length is incorrect");
+function processRequest(request) {
+  if (!request || typeof request !== "object" || Array.isArray(request)) {
+    return fail("Invalid request.");
+  }
 
-    // email must end in cougarnet.uh.edu
+  const { email, psid, date, advisingTime, advisorName, studentMajor } =
+    request;
+  const today = getTodayString();
 
-    if (typeof email !== "string" || !email.endsWith("@cougarnet.uh.edu"))
-        return fail("Please enter the correct domain");
+  if (typeof psid !== "string" || !/^\d{7}$/.test(psid)) {
+    return fail("The PSID must contain exactly 7 digits.");
+  }
 
-    // requested date must be selected
-    if (!date)
-        return fail("Please select a valid date");
+  if (
+    typeof email !== "string" ||
+    !/^[A-Z0-9.!#$%&'*+/=?^_`{|}~-]+@cougarnet\.uh\.edu$/i.test(email)
+  ) {
+    return fail("Please enter a valid Cougarnet email address.");
+  }
 
-    // Date input values are in YYYY-MM-DD format, so string comparison is chronological.
-    if (date === today)
-        return fail("The selected date can't be today")
+  if (!isValidDate(date)) {
+    return fail("Please select a valid advising date.");
+  }
 
-    if (date < today)
-        return fail("The selected date can not be in the past")
-    
-    return{
-        success: true,
-        transactionId: createTransactionId(),
-        status: "Submitted",
-        submittedAt: new Date().toISOString(),
-        message: "Your request has been sent!"
+  if (
+    typeof advisingTime !== "string" ||
+    !/^(?:[01]\d|2[0-3]):[0-5]\d$/.test(advisingTime)
+  ) {
+    return fail("Please select a valid advising time in HH:mm format.");
+  }
+
+  if (typeof advisorName !== "string" || !ADVISORS.includes(advisorName)) {
+    return fail("Please select a valid advisor.");
+  }
+
+  if (typeof studentMajor !== "string" || !MAJORS.includes(studentMajor)) {
+    return fail("Please select a valid major.");
+  }
+
+  if (!checkAdvisor(advisorName, studentMajor)) {
+    return fail("Please select an advisor who supports the selected major.");
+  }
+
+  if (date <= today) {
+    return fail(
+      date === today
+        ? "The selected date can't be today"
+        : "The selected date can not be in the past",
+    );
+  }
+
+  if (advisingTime < "09:00" || advisingTime > "16:45") {
+    if (advisingTime > "16:45" && advisingTime <= "17:00") {
+      return fail(
+        "Please choose an advising time within 15 minutes of closing (5:00 PM).",
+      );
+    } else {
+      return fail(
+        "Please choose an advising time during college hours (9:00 AM to 5:00 PM).",
+      );
     }
+  }
+
+  return {
+    success: true,
+    transactionId: createTransactionId(),
+    status: "Submitted",
+    submittedAt: new Date().toISOString(),
+    message: "Your request has been sent!",
+  };
 }
 
 module.exports = {
-    processRequest,
-    getTodayString
-}
+  processRequest,
+  getTodayString,
+};
