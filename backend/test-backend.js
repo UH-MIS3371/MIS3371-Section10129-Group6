@@ -9,7 +9,10 @@ const tests = [
         request: {
             email: "ebad@cougarnet.uh.edu",
             psid: 1,
-            date: "2027-10-18"
+            date: "2027-10-18",
+            advisingTime: "10:00",
+            advisorName: "advisor1",
+            studentMajor: "accounting"
         },
         expectedSuccess: false
     },
@@ -17,8 +20,11 @@ const tests = [
         name: "Test #2: invalid email",
         request: {
             email: "diana@gmail.com",
-            psid: 1234567,
-            date: "2027-10-18"
+            psid: "1234567",
+            date: "2027-10-18",
+            advisingTime: "10:00",
+            advisorName: "advisor1",
+            studentMajor: "accounting"
         },
         expectedSuccess: false
     },
@@ -26,8 +32,11 @@ const tests = [
         name: "Test #3: past date",
         request: {
             email: "dana@cougarnet.uh.edu",
-            psid: 1234567,
-            date: "2006-10-18"            
+            psid: "1234567",
+            date: "2006-10-18",
+            advisingTime: "10:00",
+            advisorName: "advisor1",
+            studentMajor: "accounting"
         },
         expectedSuccess: false
     },
@@ -35,8 +44,11 @@ const tests = [
         name: "Test #4: current date",
         request: {
             email: "breanna@cougarnet.uh.edu",
-            psid: 1234567,
-            date: getTodayString()
+            psid: "1234567",
+            date: getTodayString(),
+            advisingTime: "10:00",
+            advisorName: "advisor1",
+            studentMajor: "accounting"
         },
         expectedSuccess: false
     },
@@ -44,8 +56,11 @@ const tests = [
         name: "Test #5: valid input",
         request: {
             email: "fatmeh@cougarnet.uh.edu",
-            psid: 1234567,
-            date: "2027-10-18"
+            psid: "1234567",
+            date: "2027-10-18",
+            advisingTime: "10:00",
+            advisorName: "advisor1",
+            studentMajor: "accounting"
         },
         expectedSuccess: true
     },
@@ -53,8 +68,11 @@ const tests = [
         name: "Test #6: tomorrows date",
         request: {
             email: "ebad@cougarnet.uh.edu",
-            psid: 1234567,
-            date: getTomorrowString()
+            psid: "1234567",
+            date: getTomorrowString(),
+            advisingTime: "10:00",
+            advisorName: "advisor1",
+            studentMajor: "accounting"
         },
         expectedSuccess: true
     }    

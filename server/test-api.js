@@ -12,6 +12,9 @@ const validRequest = {
   email: "student@cougarnet.uh.edu",
   psid: "1234567",
   date: "2099-10-18",
+  advisingTime: "10:00",
+  advisorName: "advisor1",
+  studentMajor: "accounting",
 };
 
 // Each case changes one field from the valid request and records the expected API response.
@@ -20,19 +23,37 @@ const cases = [
     name: "Rejects an invalid PSID",
     changes: { psid: "123" },
     status: 400,
-    message: "The PSID length is incorrect",
+    message: "The PSID must contain exactly 7 digits.",
+  },
+  {
+    name: "Rejects a non-string PSID",
+    changes: { psid: 1234567 },
+    status: 400,
+    message: "The PSID must contain exactly 7 digits.",
   },
   {
     name: "Rejects an invalid email",
     changes: { email: "student@example.com" },
     status: 400,
-    message: "Please enter the correct domain",
+    message: "Please enter a valid Cougarnet email address.",
+  },
+  {
+    name: "Rejects a malformed Cougarnet email",
+    changes: { email: "not-an-email@cougarnet.uh.edu" },
+    status: 400,
+    message: "Please enter a valid Cougarnet email address.",
   },
   {
     name: "Rejects a missing date",
     changes: { date: "" },
     status: 400,
-    message: "Please select a valid date",
+    message: "Please select a valid advising date.",
+  },
+  {
+    name: "Rejects an invalid calendar date",
+    changes: { date: "2099-02-30" },
+    status: 400,
+    message: "Please select a valid advising date.",
   },
   {
     name: "Rejects a past date",
@@ -45,6 +66,30 @@ const cases = [
     changes: { date: getTodayString() },
     status: 400,
     message: "The selected date can't be today",
+  },
+  {
+    name: "Rejects a malformed advising time",
+    changes: { advisingTime: "9 AM" },
+    status: 400,
+    message: "Please select a valid advising time in HH:mm format.",
+  },
+  {
+    name: "Rejects a non-string advisor",
+    changes: { advisorName: 1 },
+    status: 400,
+    message: "Please select a valid advisor.",
+  },
+  {
+    name: "Rejects an unsupported major",
+    changes: { studentMajor: "computerScience" },
+    status: 400,
+    message: "Please select a valid major.",
+  },
+  {
+    name: "Rejects an advisor who does not support the major",
+    changes: { advisorName: "advisor4" },
+    status: 400,
+    message: "Please select an advisor who supports the selected major.",
   },
   {
     name: "Accepts a valid request",
