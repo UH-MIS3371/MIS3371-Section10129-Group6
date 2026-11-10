@@ -179,8 +179,6 @@ async function handleSubmit(event) {
   submitButton.disabled = true;
   setFormMessage("Sending your advising request...");
 
-  // updated the api 
-  
   try {
     const response = await fetch("https://n4jsv76897.execute-api.us-east-1.amazonaws.com/api/requests", {
       method: "POST",
