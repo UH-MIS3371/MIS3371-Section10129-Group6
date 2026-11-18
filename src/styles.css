@@ -41,10 +41,14 @@ body {
 
 .header-content {
   display: flex;
+  width: 100%;
+  max-width: none;
   min-height: 76px;
   align-items: center;
   justify-content: space-between;
   gap: 20px;
+  margin: 0;
+  padding: 0 20px;
 }
 
 .brand-lockup {
@@ -417,7 +421,9 @@ button:disabled {
   }
 
   .header-content {
+    width: 100%;
     min-height: 68px;
+    padding: 0 14px;
   }
 
   .brand-mark {
