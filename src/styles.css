@@ -92,15 +92,54 @@ body {
   font-weight: 700;
 }
 
-.header-label {
-  padding-left: 20px;
-  border-left: 1px solid rgba(255, 255, 255, 0.45);
-  font-size: 0.9rem;
-  font-weight: 600;
-}
-
 main.page-container {
   padding-top: 48px;
+}
+
+.tabs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  align-self: stretch;
+  margin: 0 0 0 auto;
+  border-bottom: 0;
+}
+
+.tab-button {
+  min-height: 40px;
+  padding: 8px 15px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  color: rgba(255, 255, 255, 0.82);
+  background: transparent;
+  box-shadow: none;
+  font-size: 0.88rem;
+  transition: color 150ms ease, background-color 150ms ease, border-color 150ms ease;
+}
+
+.tab-button:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: none;
+}
+
+.tab-button[aria-selected="true"] {
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.tab-button:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.9);
+  outline-offset: 2px;
+}
+
+.tab-button:active {
+  transform: none;
+}
+
+.tab-panel[hidden] {
+  display: none;
 }
 
 .page-intro {
@@ -202,6 +241,16 @@ main.page-container {
   margin: 7px 0 0;
   color: var(--muted);
   font-size: 0.9rem;
+}
+
+.retrieval-card {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.retrieval-actions button:disabled {
+  box-shadow: none;
+  cursor: not-allowed;
 }
 
 .required-mark {
@@ -423,7 +472,9 @@ button:disabled {
   .header-content {
     width: 100%;
     min-height: 68px;
-    padding: 0 14px;
+    flex-wrap: wrap;
+    gap: 0 12px;
+    padding: 10px 14px 0;
   }
 
   .brand-mark {
@@ -440,9 +491,19 @@ button:disabled {
     font-size: 0.95rem;
   }
 
-  .header-label {
-    padding-left: 12px;
-    font-size: 0.78rem;
+  .tabs {
+    width: 100%;
+    height: 44px;
+    justify-content: stretch;
+    margin-top: 8px;
+  }
+
+  .tab-button {
+    flex: 1;
+    width: auto;
+    min-height: 36px;
+    padding: 6px 8px;
+    font-size: 0.82rem;
   }
 
   main.page-container {
