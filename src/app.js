@@ -26,6 +26,7 @@ const advisingTime = document.querySelector("#advisingTime");
 const appointmentType = document.querySelector("#appointmentType");
 const appointmentPurpose = document.querySelector("#description");
 const studentName = document.querySelector("#studentName");
+const tabs = Array.from(document.querySelectorAll('[role="tab"]'));
 
 function localDateString(date) {
   const year = date.getFullYear();
@@ -110,6 +111,20 @@ function updateValidStudentIdMessage() {
   );
 }
 
+function activateTab(tab) {
+  tabs.forEach((currentTab) => {
+    const isSelected = currentTab === tab;
+    currentTab.setAttribute("aria-selected", String(isSelected));
+    currentTab.tabIndex = isSelected ? 0 : -1;
+
+    const panel = document.getElementById(
+      currentTab.getAttribute("aria-controls"),
+    );
+    panel.hidden = !isSelected;
+  });
+  tab.focus();
+}
+
 async function handleSubmit(event) {
   event.preventDefault();
 
@@ -179,6 +194,8 @@ async function handleSubmit(event) {
   submitButton.disabled = true;
   setFormMessage("Sending your advising request...");
 
+  // updated the api 
+  
   try {
     const response = await fetch("https://n4jsv76897.execute-api.us-east-1.amazonaws.com/api/requests", {
       method: "POST",
@@ -231,3 +248,24 @@ advisorName.addEventListener("input", updateValidAdvisorMessage);
 studentMajor.addEventListener("input", updateValidAdvisorMessage);
 studentEmail.addEventListener("input", updateValidEmailMessage);
 form.addEventListener("submit", handleSubmit);
+
+tabs.forEach((tab, index) => {
+  tab.addEventListener("click", () => activateTab(tab));
+  tab.addEventListener("keydown", (event) => {
+    let nextIndex;
+    if (event.key === "ArrowRight") {
+      nextIndex = (index + 1) % tabs.length;
+    } else if (event.key === "ArrowLeft") {
+      nextIndex = (index - 1 + tabs.length) % tabs.length;
+    } else if (event.key === "Home") {
+      nextIndex = 0;
+    } else if (event.key === "End") {
+      nextIndex = tabs.length - 1;
+    } else {
+      return;
+    }
+
+    event.preventDefault();
+    activateTab(tabs[nextIndex]);
+  });
+});
