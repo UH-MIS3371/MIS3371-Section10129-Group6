@@ -172,7 +172,7 @@ async function handleSubmit(event) {
       );
     }
     advisingTime.focus();
-  return;
+    return;
   }
 
   const request = {
@@ -194,14 +194,17 @@ async function handleSubmit(event) {
   submitButton.disabled = true;
   setFormMessage("Sending your advising request...");
 
-  // updated the api 
-  
+  // updated the api
+
   try {
-    const response = await fetch("https://n4jsv76897.execute-api.us-east-1.amazonaws.com/api/requests", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(request),
-    });
+    const response = await fetch(
+      "https://n4jsv76897.execute-api.us-east-1.amazonaws.com/api/requests",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(request),
+      },
+    );
 
     let result;
     try {
@@ -241,7 +244,6 @@ async function handleSubmit(event) {
     submitButton.disabled = false;
   }
 }
-
 
 studentId.addEventListener("input", updateValidStudentIdMessage);
 advisorName.addEventListener("input", updateValidAdvisorMessage);

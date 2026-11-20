@@ -24,7 +24,11 @@ body {
   line-height: 1.55;
   color: var(--ink);
   background:
-    radial-gradient(ellipse at 50% 0, rgba(200, 16, 46, 0.045), transparent 34rem),
+    radial-gradient(
+      ellipse at 50% 0,
+      rgba(200, 16, 46, 0.045),
+      transparent 34rem
+    ),
     #fbf8f8;
 }
 
@@ -114,7 +118,10 @@ main.page-container {
   background: transparent;
   box-shadow: none;
   font-size: 0.88rem;
-  transition: color 150ms ease, background-color 150ms ease, border-color 150ms ease;
+  transition:
+    color 150ms ease,
+    background-color 150ms ease,
+    border-color 150ms ease;
 }
 
 .tab-button:hover {
@@ -311,7 +318,10 @@ textarea {
   background: #ffffff;
   font: inherit;
   font-size: 0.94rem;
-  transition: border-color 150ms ease, box-shadow 150ms ease, background 150ms ease;
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease,
+    background 150ms ease;
 }
 
 input::placeholder,
@@ -396,7 +406,10 @@ button {
   font-size: 0.92rem;
   font-weight: 700;
   cursor: pointer;
-  transition: background-color 150ms ease, box-shadow 150ms ease, transform 150ms ease;
+  transition:
+    background-color 150ms ease,
+    box-shadow 150ms ease,
+    transform 150ms ease;
 }
 
 button span {
