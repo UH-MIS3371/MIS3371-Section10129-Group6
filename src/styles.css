@@ -260,6 +260,68 @@ main.page-container {
   cursor: not-allowed;
 }
 
+.confirmation-panel {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 16px 0 0;
+  padding: 12px 14px;
+  border: 1px solid #bcd8c3;
+  border-radius: 7px;
+  color: #24633d;
+  background: #eff8f1;
+  font-weight: 700;
+}
+
+.confirmation-panel[hidden] {
+  display: none;
+}
+
+.confirmation-panel code {
+  overflow-wrap: anywhere;
+  font-family: monospace;
+  font-size: 0.95rem;
+}
+
+.status-result {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 18px 0 0;
+}
+
+.status-result[hidden] {
+  display: none;
+}
+
+.status-result div {
+  margin: 0;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: #fff;
+}
+
+.status-result dt {
+  margin-bottom: 5px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.status-result dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.retrieval-actions {
+  margin-top: 20px;
+}
+
 .required-mark {
   color: var(--uh-red);
 }
@@ -561,6 +623,10 @@ button:disabled {
 
   button {
     width: 100%;
+  }
+
+  .status-result {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 

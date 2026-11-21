@@ -27,6 +27,24 @@ const appointmentType = document.querySelector("#appointmentType");
 const appointmentPurpose = document.querySelector("#description");
 const studentName = document.querySelector("#studentName");
 const tabs = Array.from(document.querySelectorAll('[role="tab"]'));
+const confirmationPanel = document.querySelector("#confirmationPanel");
+const confirmationNumber = document.querySelector("#confirmationNumber");
+const statusLookupForm = document.querySelector("#statusLookupForm");
+const statusTransactionIdInput = document.querySelector("#statusTransactionId");
+const viewStatusButton = document.querySelector("#viewStatusButton");
+const statusMessage = document.querySelector("#statusMessage");
+const statusResult = document.querySelector("#statusResult");
+
+const viewedTransactionId = document.querySelector("#viewedTransactionId");
+const viewedStatus = document.querySelector("#viewedStatus");
+const viewedSubmittedAt = document.querySelector("#viewedSubmittedAt");
+const viewedStudentName = document.querySelector("#viewedStudentName");
+const viewedMajor = document.querySelector("#viewedMajor");
+const viewedAdvisor = document.querySelector("#viewedAdvisor");
+const viewedAdvisingDate = document.querySelector("#viewedAdvisingDate");
+const viewedAdvisingTime = document.querySelector("#viewedAdvisingTime");
+
+const API_BASE_URL = "https://n4jsv76897.execute-api.us-east-1.amazonaws.com";
 
 function localDateString(date) {
   const year = date.getFullYear();
@@ -197,14 +215,11 @@ async function handleSubmit(event) {
   // updated the api
 
   try {
-    const response = await fetch(
-      "https://n4jsv76897.execute-api.us-east-1.amazonaws.com/api/requests",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(request),
-      },
-    );
+    const response = await fetch(`${API_BASE_URL}/api/requests`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(request),
+    });
 
     let result;
     try {
@@ -218,7 +233,7 @@ async function handleSubmit(event) {
       return;
     }
 
-    if (!response.ok || !result.success) {
+    if (!response.ok || result.success !== true) {
       setFormMessage(
         result.message ||
           "Your request was rejected. Please check your information.",
@@ -227,11 +242,19 @@ async function handleSubmit(event) {
       return;
     }
 
-    const transactionId = result.transactionId
-      ? ` Request ID: ${result.transactionId}.`
-      : "";
+    if (result.persisted !== true || !result.transactionId) {
+      setFormMessage(
+        "The server did not confirm that your request was saved.",
+        "error",
+      );
+      return;
+    }
+
+    confirmationNumber.textContent = result.transactionId;
+    confirmationPanel.hidden = false;
+    statusTransactionIdInput.value = result.transactionId;
     setFormMessage(
-      `${result.message || "Your request was accepted."}${transactionId}`,
+      `${result.message || "Your request was accepted."} Your confirmation number is shown below.`,
       "success",
     );
   } catch (error) {
@@ -245,11 +268,83 @@ async function handleSubmit(event) {
   }
 }
 
+async function handleStatusLookup(event) {
+  event.preventDefault();
+
+  const id = statusTransactionIdInput.value.trim();
+  if (!id) {
+    statusMessage.textContent = "Enter a confirmation number.";
+    statusMessage.className = "form-message error-message";
+    statusResult.hidden = true;
+    return;
+  }
+
+  statusMessage.textContent = "Looking up your saved request...";
+  statusMessage.className = "form-message";
+  statusResult.hidden = true;
+  viewStatusButton.disabled = true;
+
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/api/requests/${encodeURIComponent(id)}`,
+      { method: "GET" },
+    );
+
+    let result;
+    try {
+      result = await response.json();
+    } catch (error) {
+      console.error("The status response was not valid JSON", error);
+      statusMessage.textContent = "The server returned an unreadable response.";
+      statusMessage.className = "form-message error-message";
+      return;
+    }
+
+    if (!response.ok) {
+      statusMessage.textContent =
+        result.message ||
+        (response.status === 404 ? "Transaction not found." : "Lookup failed.");
+      statusMessage.className = "form-message error-message";
+      return;
+    }
+
+    const transaction =
+      result.transaction && typeof result.transaction === "object"
+        ? result.transaction
+        : result;
+
+    viewedTransactionId.textContent =
+      transaction.transactionId || "Unavailable";
+    viewedStatus.textContent = transaction.status || "Unavailable";
+    viewedSubmittedAt.textContent = transaction.submittedAt || "Unavailable";
+    viewedStudentName.textContent = transaction.studentName || "Unavailable";
+    viewedMajor.textContent = transaction.studentMajor || "Unavailable";
+    viewedAdvisor.textContent = transaction.advisorName || "Unavailable";
+    viewedAdvisingDate.textContent =
+      transaction.advisingDate || transaction.date || "Unavailable";
+    viewedAdvisingTime.textContent = transaction.advisingTime || "Unavailable";
+
+    statusMessage.textContent = "";
+    statusMessage.className = "form-message";
+    statusResult.hidden = false;
+  } catch (error) {
+    console.error("The status request failed", error);
+    statusMessage.textContent =
+      "Could not connect to the status service. Check that the server is running.";
+    statusMessage.className = "form-message error-message";
+  } finally {
+    viewStatusButton.disabled = false;
+  }
+}
+
 studentId.addEventListener("input", updateValidStudentIdMessage);
 advisorName.addEventListener("input", updateValidAdvisorMessage);
 studentMajor.addEventListener("input", updateValidAdvisorMessage);
 studentEmail.addEventListener("input", updateValidEmailMessage);
 form.addEventListener("submit", handleSubmit);
+if (statusLookupForm) {
+  statusLookupForm.addEventListener("submit", handleStatusLookup);
+}
 
 tabs.forEach((tab, index) => {
   tab.addEventListener("click", () => activateTab(tab));
