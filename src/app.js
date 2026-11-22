@@ -78,6 +78,35 @@ function checkStudentId(id) {
   return id.length === STUDENT_ID_LENGTH;
 }
 
+function getSelectLabel(select, value) {
+  if (!value) return "Unavailable";
+
+  const option = Array.from(select.options).find(
+    (currentOption) => currentOption.value === value,
+  );
+  return option?.textContent.trim().replace(/\s+/g, " ") || value;
+}
+
+function formatSubmittedAt(value) {
+  if (!value) return "Unavailable";
+
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
+
+  return new Intl.DateTimeFormat(undefined, {
+    dateStyle: "medium",
+    timeStyle: "short",
+  }).format(date);
+}
+
+function formatAdvisingTime(value) {
+  const match = /^([01]\d|2[0-3]):([0-5]\d)$/.exec(value || "");
+  if (!match) return value || "Unavailable";
+
+  const hour = Number(match[1]);
+  return `${hour % 12 || 12}:${match[2]} ${hour < 12 ? "AM" : "PM"}`;
+}
+
 function updateValidationMessage(
   element,
   value,
@@ -316,13 +345,21 @@ async function handleStatusLookup(event) {
     viewedTransactionId.textContent =
       transaction.transactionId || "Unavailable";
     viewedStatus.textContent = transaction.status || "Unavailable";
-    viewedSubmittedAt.textContent = transaction.submittedAt || "Unavailable";
+    viewedSubmittedAt.textContent = formatSubmittedAt(transaction.submittedAt);
     viewedStudentName.textContent = transaction.studentName || "Unavailable";
-    viewedMajor.textContent = transaction.studentMajor || "Unavailable";
-    viewedAdvisor.textContent = transaction.advisorName || "Unavailable";
+    viewedMajor.textContent = getSelectLabel(
+      studentMajor,
+      transaction.studentMajor,
+    );
+    viewedAdvisor.textContent = getSelectLabel(
+      advisorName,
+      transaction.advisorName,
+    );
     viewedAdvisingDate.textContent =
       transaction.advisingDate || transaction.date || "Unavailable";
-    viewedAdvisingTime.textContent = transaction.advisingTime || "Unavailable";
+    viewedAdvisingTime.textContent = formatAdvisingTime(
+      transaction.advisingTime,
+    );
 
     statusMessage.textContent = "";
     statusMessage.className = "form-message";
