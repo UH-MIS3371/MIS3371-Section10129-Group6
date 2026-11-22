@@ -2,13 +2,13 @@
 
 ## Rules
 
-- The PSID must be 7 digits and exist in the Students database.
+- The PSID must be 7 digits.
 - The email must be a student email ending in @cougarnet.uh.edu.
-- The email must match the email stored for that PSID in the Students database.
 - The student's college must match the advisor's college.
-- The requested date must be after today.
-- The selected advisor must be available on the requested date.
-- The selected time must be during the college’s hours.
+- The requested date must be after today (the day student fills out request).
+- The selected time can not be the exact time as college opening or closing.
+- The selected time must be at least 15 minutes before college closing.
+- The selected time must be during the college’s business hours.
 
 ## States
 
